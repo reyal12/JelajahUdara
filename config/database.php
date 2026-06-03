@@ -86,7 +86,7 @@ class Database {
             $this->conn->exec("DROP PROCEDURE IF EXISTS tambah_maskapai");
             $this->conn->exec("CREATE PROCEDURE tambah_maskapai(IN p_nama VARCHAR(100), IN p_kode VARCHAR(10), IN p_status VARCHAR(20))
                 BEGIN
-                  INSERT INTO maskapai (nama_maskapai, kode_maskapai) VALUES (p_nama, p_kode);
+                  INSERT INTO maskapai (nama_maskapai, kode_maskapai, status) VALUES (p_nama, p_kode, p_status);
                 END");
         } catch (Exception $e) {}
 

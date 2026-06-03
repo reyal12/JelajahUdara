@@ -53,9 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $role = 'customer';
 
         // Insert new user
-        $insert_query = "INSERT INTO users (nama, email, password, role) VALUES (:nama, :email, :password, :role)";
+        $insert_query = "INSERT INTO users (nama, nama_lengkap, email, password, role) VALUES (:nama, :nama_lengkap, :email, :password, :role)";
         $insert_stmt = $db->prepare($insert_query);
         $insert_stmt->bindParam(':nama', $nama_lengkap);
+        $insert_stmt->bindParam(':nama_lengkap', $nama_lengkap);
         $insert_stmt->bindParam(':email', $email);
         $insert_stmt->bindParam(':password', $hashed_password);
         $insert_stmt->bindParam(':role', $role);

@@ -23,7 +23,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($password, $user['password'])) {
+        $stored_password = $user['password'];
+        $is_valid_password = false;
+
+        if ($user) {
+            if (password_verify($password, $stored_password)) {
+                $is_valid_password = true;
+            } elseif (hash('sha256', $password) === $stored_password) {
+                // Support legacy SHA-256 password hashes for existing admin/staff accounts.
+                $is_valid_password = true;
+            }
+        }
+
+        if ($user && $is_valid_password) {
             // Save user session
             $_SESSION['user_id'] = $user['id_user'];
             $_SESSION['user_name'] = $user['nama'];
