@@ -18,16 +18,16 @@ $db = $database->getConnection();
 
 $ticket = null;
 try {
-    $query = "SELECT p.*, f.tanggal_berangkat, f.tanggal_tiba, m.nama_maskapai, m.kode_maskapai,
+    $query = "SELECT p.*, f.tanggal_berangkat, f.jam_berangkat, f.jam_tiba, m.nama_maskapai, m.kode_maskapai,
                      b_asal.nama_bandara AS nama_asal, b_asal.kota AS kota_asal, b_asal.kode_bandara AS kode_asal,
                      b_tuj.nama_bandara AS nama_tujuan, b_tuj.kota AS kota_tujuan, b_tuj.kode_bandara AS kode_tujuan,
-                     u.nama_lengkap, u.email
+                     COALESCE(u.nama_lengkap, u.nama) AS nama_lengkap, u.email
               FROM pemesanan p
               JOIN users u ON p.id_user = u.id_user
               JOIN penerbangan f ON p.id_penerbangan = f.id_penerbangan
               JOIN maskapai m ON f.id_maskapai = m.id_maskapai
-              JOIN bandara b_asal ON f.bandara_asal = b_asal.id_bandara
-              JOIN bandara b_tuj ON f.bandara_tujuan = b_tuj.id_bandara
+              JOIN bandara b_asal ON f.asal_bandara = b_asal.id_bandara
+              JOIN bandara b_tuj ON f.tujuan_bandara = b_tuj.id_bandara
               WHERE p.id_pemesanan = :id AND (p.id_user = :user_id OR :role = 'admin') LIMIT 1";
     $stmt = $db->prepare($query);
     $stmt->bindParam(':id', $id_pemesanan);
@@ -41,7 +41,7 @@ if (!$ticket) {
     die("<div class='container my-5 text-center'><div class='alert alert-danger'>Tiket tidak ditemukan atau Anda tidak memiliki akses!</div></div>");
 }
 
-if ($ticket['status_pemesanan'] !== 'Berhasil') {
+if ($ticket['status_pemesanan'] !== 'dikonfirmasi') {
     die("<div class='container my-5 text-center'><div class='alert alert-warning'>Tiket belum lunas / belum aktif. Silakan lakukan pembayaran terlebih dahulu.</div></div>");
 }
 ?>
@@ -82,7 +82,7 @@ if ($ticket['status_pemesanan'] !== 'Berhasil') {
                             <span class="text-muted small d-block">KEBERANGKATAN</span>
                             <h4 class="fw-bold text-primary mb-0"><?= htmlspecialchars($ticket['kode_asal']) ?></h4>
                             <span class="small fw-semibold d-block text-dark"><?= htmlspecialchars($ticket['kota_asal']) ?></span>
-                            <small class="text-muted"><?= date('d M Y, H:i', strtotime($ticket['tanggal_berangkat'])) ?></small>
+                            <small class="text-muted"><?= date('d M Y', strtotime($ticket['tanggal_berangkat'])) . ', ' . substr($ticket['jam_berangkat'], 0, 5) ?></small>
                         </div>
                         <div class="col-2 text-center">
                             <i class="fa-solid fa-circle-arrow-right text-primary fs-3"></i>
@@ -91,7 +91,7 @@ if ($ticket['status_pemesanan'] !== 'Berhasil') {
                             <span class="text-muted small d-block">KEDATANGAN</span>
                             <h4 class="fw-bold text-primary mb-0"><?= htmlspecialchars($ticket['kode_tujuan']) ?></h4>
                             <span class="small fw-semibold d-block text-dark"><?= htmlspecialchars($ticket['kota_tujuan']) ?></span>
-                            <small class="text-muted"><?= date('d M Y, H:i', strtotime($ticket['tanggal_tiba'])) ?></small>
+                            <small class="text-muted"><?= date('d M Y', strtotime($ticket['tanggal_berangkat'])) . ', ' . substr($ticket['jam_tiba'], 0, 5) ?></small>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@ if ($ticket['status_pemesanan'] !== 'Berhasil') {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php for ($i = 1; $i <= intval($ticket['jumlah_penumpang']); $i++): ?>
+                            <?php for ($i = 1; $i <= intval($ticket['jumlah_tiket']); $i++): ?>
                                 <tr>
                                     <td><?= $i ?></td>
                                     <td><?= htmlspecialchars($ticket['nama_lengkap']) ?> (Pax #<?= $i ?>)</td>
@@ -135,7 +135,7 @@ if ($ticket['status_pemesanan'] !== 'Berhasil') {
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted">Jumlah Penumpang</span>
-                        <span><?= $ticket['jumlah_penumpang'] ?> Orang</span>
+                        <span><?= $ticket['jumlah_tiket'] ?> Orang</span>
                     </div>
                     <hr class="my-2">
                     <div class="d-flex justify-content-between align-items-center">
