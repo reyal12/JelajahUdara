@@ -28,32 +28,38 @@ try {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Add Flight
     if (isset($_POST['add_flight'])) {
-        $id_maskapai = intval($_POST['id_maskapai']);
-        $asal = intval($_POST['bandara_asal']);
-        $tujuan = intval($_POST['bandara_tujuan']);
-        $tanggal_berangkat = $_POST['tanggal_berangkat'];
-        $tanggal_tiba = $_POST['tanggal_tiba'];
-        $harga = floatval($_POST['harga']);
-        $kursi = intval($_POST['kursi_tersedia']);
-        $status = $_POST['status'];
+        $id_maskapai      = intval($_POST['id_maskapai']);
+        $asal             = intval($_POST['bandara_asal']);
+        $tujuan           = intval($_POST['bandara_tujuan']);
+        $tanggal_berangkat = $_POST['tanggal_berangkat'];   // date (Y-m-d)
+        $jam_berangkat    = $_POST['jam_berangkat'];         // time (H:i)
+        $jam_tiba         = $_POST['jam_tiba'];              // time (H:i)
+        $harga            = floatval($_POST['harga']);
+        $kursi            = intval($_POST['kursi_tersedia']);
+        $status           = $_POST['status'];
 
-        if ($id_maskapai <= 0 || $asal <= 0 || $tujuan <= 0 || empty($tanggal_berangkat) || empty($tanggal_tiba) || $harga <= 0 || $kursi < 0) {
+        if ($id_maskapai <= 0 || $asal <= 0 || $tujuan <= 0
+            || empty($tanggal_berangkat) || empty($jam_berangkat) || empty($jam_tiba)
+            || $harga <= 0 || $kursi < 0) {
             $error_msg = "Semua kolom harus diisi dengan benar!";
         } elseif ($asal === $tujuan) {
             $error_msg = "Bandara asal dan tujuan tidak boleh sama!";
         } else {
             try {
-                $query = "INSERT INTO penerbangan (id_maskapai, asal_bandara, tujuan_bandara, tanggal_berangkat, jam_berangkat, jam_tiba, harga, kursi_tersedia, status_penerbangan) 
-                          VALUES (:id_maskapai, :asal, :tujuan, :tanggal_berangkat, :jam_berangkat, :jam_tiba, :harga, :kursi, :status)";
+                $query = "INSERT INTO penerbangan 
+                            (id_maskapai, asal_bandara, tujuan_bandara, tanggal_berangkat, jam_berangkat, jam_tiba, harga, kursi_tersedia, status_penerbangan) 
+                          VALUES 
+                            (:id_maskapai, :asal, :tujuan, :tanggal_berangkat, :jam_berangkat, :jam_tiba, :harga, :kursi, :status)";
                 $stmt = $db->prepare($query);
-                $stmt->bindParam(':id_maskapai', $id_maskapai);
-                $stmt->bindParam(':asal', $asal);
-                $stmt->bindParam(':tujuan', $tujuan);
+                $stmt->bindParam(':id_maskapai',       $id_maskapai);
+                $stmt->bindParam(':asal',              $asal);
+                $stmt->bindParam(':tujuan',            $tujuan);
                 $stmt->bindParam(':tanggal_berangkat', $tanggal_berangkat);
-                $stmt->bindParam(':tanggal_tiba', $tanggal_tiba);
-                $stmt->bindParam(':harga', $harga);
-                $stmt->bindParam(':kursi', $kursi);
-                $stmt->bindParam(':status', $status);
+                $stmt->bindParam(':jam_berangkat',     $jam_berangkat);
+                $stmt->bindParam(':jam_tiba',          $jam_tiba);
+                $stmt->bindParam(':harga',             $harga);
+                $stmt->bindParam(':kursi',             $kursi);
+                $stmt->bindParam(':status',            $status);
 
                 if ($stmt->execute()) {
                     $success_msg = "Penerbangan baru berhasil ditambahkan!";
@@ -68,36 +74,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Edit Flight details
     if (isset($_POST['edit_flight'])) {
-        $id = intval($_POST['id_penerbangan']);
-        $id_maskapai = intval($_POST['id_maskapai']);
-        $asal = intval($_POST['bandara_asal']);
-        $tujuan = intval($_POST['bandara_tujuan']);
+        $id               = intval($_POST['id_penerbangan']);
+        $id_maskapai      = intval($_POST['id_maskapai']);
+        $asal             = intval($_POST['bandara_asal']);
+        $tujuan           = intval($_POST['bandara_tujuan']);
         $tanggal_berangkat = $_POST['tanggal_berangkat'];
-        $tanggal_tiba = $_POST['tanggal_tiba'];
-        $harga = floatval($_POST['harga']);
-        $kursi = intval($_POST['kursi_tersedia']);
-        $status = $_POST['status'];
+        $jam_berangkat    = $_POST['jam_berangkat'];
+        $jam_tiba         = $_POST['jam_tiba'];
+        $harga            = floatval($_POST['harga']);
+        $kursi            = intval($_POST['kursi_tersedia']);
+        $status           = $_POST['status'];
 
-        if ($id <= 0 || $id_maskapai <= 0 || $asal <= 0 || $tujuan <= 0 || empty($tanggal_berangkat) || empty($tanggal_tiba) || $harga <= 0 || $kursi < 0) {
+        if ($id <= 0 || $id_maskapai <= 0 || $asal <= 0 || $tujuan <= 0
+            || empty($tanggal_berangkat) || empty($jam_berangkat) || empty($jam_tiba)
+            || $harga <= 0 || $kursi < 0) {
             $error_msg = "Semua kolom harus diisi dengan benar!";
         } elseif ($asal === $tujuan) {
             $error_msg = "Bandara asal dan tujuan tidak boleh sama!";
         } else {
             try {
-                $query = "UPDATE penerbangan SET id_maskapai = :id_maskapai, asal_bandara = :asal, tujuan_bandara = :tujuan, 
-                                                 tanggal_berangkat = :tanggal_berangkat, jam_berangkat = :jam_berangkat, jam_tiba = :jam_tiba, 
-                                                 harga = :harga, kursi_tersedia = :kursi, status_penerbangan = :status 
+                $query = "UPDATE penerbangan 
+                          SET id_maskapai = :id_maskapai,
+                              asal_bandara = :asal,
+                              tujuan_bandara = :tujuan,
+                              tanggal_berangkat = :tanggal_berangkat,
+                              jam_berangkat = :jam_berangkat,
+                              jam_tiba = :jam_tiba,
+                              harga = :harga,
+                              kursi_tersedia = :kursi,
+                              status_penerbangan = :status
                           WHERE id_penerbangan = :id";
                 $stmt = $db->prepare($query);
-                $stmt->bindParam(':id_maskapai', $id_maskapai);
-                $stmt->bindParam(':asal', $asal);
-                $stmt->bindParam(':tujuan', $tujuan);
+                $stmt->bindParam(':id_maskapai',       $id_maskapai);
+                $stmt->bindParam(':asal',              $asal);
+                $stmt->bindParam(':tujuan',            $tujuan);
                 $stmt->bindParam(':tanggal_berangkat', $tanggal_berangkat);
-                $stmt->bindParam(':tanggal_tiba', $tanggal_tiba);
-                $stmt->bindParam(':harga', $harga);
-                $stmt->bindParam(':kursi', $kursi);
-                $stmt->bindParam(':status', $status);
-                $stmt->bindParam(':id', $id);
+                $stmt->bindParam(':jam_berangkat',     $jam_berangkat);
+                $stmt->bindParam(':jam_tiba',          $jam_tiba);
+                $stmt->bindParam(':harga',             $harga);
+                $stmt->bindParam(':kursi',             $kursi);
+                $stmt->bindParam(':status',            $status);
+                $stmt->bindParam(':id',                $id);
 
                 if ($stmt->execute()) {
                     $success_msg = "Detail penerbangan berhasil diperbarui!";
@@ -112,19 +129,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Quick Update Price (Calls Stored Procedure `update_harga_penerbangan`)
     if (isset($_POST['update_price_sp'])) {
-        $id = intval($_POST['id_penerbangan']);
+        $id        = intval($_POST['id_penerbangan']);
         $harga_baru = floatval($_POST['harga_baru']);
 
         if ($id <= 0 || $harga_baru <= 0) {
             $error_msg = "Data harga tidak valid!";
         } else {
             try {
-                // Call Stored Procedure
                 $query = "CALL update_harga_penerbangan(:id, :harga)";
                 $stmt = $db->prepare($query);
-                $stmt->bindParam(':id', $id);
+                $stmt->bindParam(':id',    $id);
                 $stmt->bindParam(':harga', $harga_baru);
-                
                 if ($stmt->execute()) {
                     $success_msg = "Harga penerbangan berhasil diubah via Stored Procedure!";
                 } else {
@@ -142,9 +157,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
     $id = intval($_GET['id']);
     try {
         $query = "DELETE FROM penerbangan WHERE id_penerbangan = :id";
-        $stmt = $db->prepare($query);
+        $stmt  = $db->prepare($query);
         $stmt->bindParam(':id', $id);
-        
         if ($stmt->execute()) {
             $success_msg = "Penerbangan berhasil dihapus!";
         } else {
@@ -161,7 +175,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['id'])) 
     $id = intval($_GET['id']);
     try {
         $query = "SELECT * FROM penerbangan WHERE id_penerbangan = :id LIMIT 1";
-        $stmt = $db->prepare($query);
+        $stmt  = $db->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $edit_data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -171,16 +185,14 @@ if (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['id'])) 
 // List Flights (Calls Stored Procedure `tampil_penerbangan`)
 $flights = [];
 try {
-    // Call Stored Procedure to fetch list
     $query = "CALL tampil_penerbangan()";
-    $stmt = $db->prepare($query);
+    $stmt  = $db->prepare($query);
     $stmt->execute();
     $flights = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    // Fallback if SP fails or doesn't exist
     try {
         $query = "SELECT * FROM vw_jadwal_penerbangan ORDER BY tanggal_berangkat ASC";
-        $stmt = $db->prepare($query);
+        $stmt  = $db->prepare($query);
         $stmt->execute();
         $flights = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $ex) {}
@@ -242,7 +254,7 @@ try {
                             <select class="form-select bg-light" id="bandara_asal" name="bandara_asal" required>
                                 <option value="" selected disabled>Pilih Asal...</option>
                                 <?php foreach ($airports as $ap): ?>
-                                    <option value="<?= $ap['id_bandara'] ?>" <?= (isset($edit_data['bandara_asal']) && intval($edit_data['bandara_asal']) === intval($ap['id_bandara'])) ? 'selected' : '' ?>><?= htmlspecialchars($ap['kota']) ?> (<?= htmlspecialchars($ap['kode_bandara']) ?>)</option>
+                                    <option value="<?= $ap['id_bandara'] ?>" <?= (isset($edit_data['asal_bandara']) && intval($edit_data['asal_bandara']) === intval($ap['id_bandara'])) ? 'selected' : '' ?>><?= htmlspecialchars($ap['kota']) ?> (<?= htmlspecialchars($ap['kode_bandara']) ?>)</option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -252,19 +264,24 @@ try {
                             <select class="form-select bg-light" id="bandara_tujuan" name="bandara_tujuan" required>
                                 <option value="" selected disabled>Pilih Tujuan...</option>
                                 <?php foreach ($airports as $ap): ?>
-                                    <option value="<?= $ap['id_bandara'] ?>" <?= (isset($edit_data['bandara_tujuan']) && intval($edit_data['bandara_tujuan']) === intval($ap['id_bandara'])) ? 'selected' : '' ?>><?= htmlspecialchars($ap['kota']) ?> (<?= htmlspecialchars($ap['kode_bandara']) ?>)</option>
+                                    <option value="<?= $ap['id_bandara'] ?>" <?= (isset($edit_data['tujuan_bandara']) && intval($edit_data['tujuan_bandara']) === intval($ap['id_bandara'])) ? 'selected' : '' ?>><?= htmlspecialchars($ap['kota']) ?> (<?= htmlspecialchars($ap['kode_bandara']) ?>)</option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label for="tanggal_berangkat" class="form-label fw-semibold">Tanggal Berangkat</label>
-                            <input type="datetime-local" class="form-control bg-light" id="tanggal_berangkat" name="tanggal_berangkat" value="<?= isset($edit_data['tanggal_berangkat']) ? date('Y-m-d\TH:i', strtotime($edit_data['tanggal_berangkat'])) : '' ?>" required>
+                            <input type="date" class="form-control bg-light" id="tanggal_berangkat" name="tanggal_berangkat" value="<?= isset($edit_data['tanggal_berangkat']) ? $edit_data['tanggal_berangkat'] : '' ?>" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="tanggal_tiba" class="form-label fw-semibold">Tanggal Tiba</label>
-                            <input type="datetime-local" class="form-control bg-light" id="tanggal_tiba" name="tanggal_tiba" value="<?= isset($edit_data['tanggal_tiba']) ? date('Y-m-d\TH:i', strtotime($edit_data['tanggal_tiba'])) : '' ?>" required>
+                            <label for="jam_berangkat" class="form-label fw-semibold">Jam Berangkat</label>
+                            <input type="time" class="form-control bg-light" id="jam_berangkat" name="jam_berangkat" value="<?= isset($edit_data['jam_berangkat']) ? $edit_data['jam_berangkat'] : '' ?>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="jam_tiba" class="form-label fw-semibold">Jam Tiba</label>
+                            <input type="time" class="form-control bg-light" id="jam_tiba" name="jam_tiba" value="<?= isset($edit_data['jam_tiba']) ? $edit_data['jam_tiba'] : '' ?>" required>
                         </div>
 
                         <div class="mb-3">
@@ -280,9 +297,9 @@ try {
                         <div class="mb-4">
                             <label for="status" class="form-label fw-semibold">Status Penerbangan</label>
                             <select class="form-select bg-light" id="status" name="status" required>
-                                <option value="tersedia" <?= (isset($edit_data['status']) && $edit_data['status'] === 'tersedia') ? 'selected' : '' ?>>Tersedia</option>
-                                <option value="penuh" <?= (isset($edit_data['status']) && $edit_data['status'] === 'penuh') ? 'selected' : '' ?>>Penuh</option>
-                                <option value="dibatalkan" <?= (isset($edit_data['status']) && $edit_data['status'] === 'dibatalkan') ? 'selected' : '' ?>>Dibatalkan</option>
+                                <option value="aktif"      <?= (isset($edit_data['status_penerbangan']) && $edit_data['status_penerbangan'] === 'aktif')      ? 'selected' : '' ?>>Aktif</option>
+                                <option value="dibatalkan" <?= (isset($edit_data['status_penerbangan']) && $edit_data['status_penerbangan'] === 'dibatalkan') ? 'selected' : '' ?>>Dibatalkan</option>
+                                <option value="selesai"    <?= (isset($edit_data['status_penerbangan']) && $edit_data['status_penerbangan'] === 'selesai')    ? 'selected' : '' ?>>Selesai</option>
                             </select>
                         </div>
 
@@ -354,7 +371,7 @@ try {
                                                 <small class="text-muted text-capitalize"><?= htmlspecialchars($f['kota_asal']) ?> ke <?= htmlspecialchars($f['kota_tujuan']) ?></small>
                                             </td>
                                             <td>
-                                                <span class="fw-semibold d-block text-primary"><?= date('H:i', strtotime($f['tanggal_berangkat'])) ?></span>
+                                                <span class="fw-semibold d-block text-primary"><?= htmlspecialchars($f['jam_berangkat']) ?></span>
                                                 <small class="text-muted"><?= date('d M Y', strtotime($f['tanggal_berangkat'])) ?></small>
                                             </td>
                                             <td class="fw-bold text-success">
@@ -366,8 +383,8 @@ try {
                                                 </span>
                                             </td>
                                             <td>
-                                                <span class="badge <?= $f['status'] === 'tersedia' ? 'bg-success-subtle text-success' : ($f['status'] === 'penuh' ? 'bg-warning-subtle text-warning' : 'bg-danger-subtle text-danger') ?> px-2.5 py-1.5 rounded-pill text-capitalize">
-                                                    <?= htmlspecialchars($f['status']) ?>
+                                                <span class="badge <?= $f['status_penerbangan'] === 'aktif' ? 'bg-success-subtle text-success' : ($f['status_penerbangan'] === 'selesai' ? 'bg-warning-subtle text-warning' : 'bg-danger-subtle text-danger') ?> px-2 py-1 rounded-pill text-capitalize">
+                                                    <?= htmlspecialchars($f['status_penerbangan']) ?>
                                                 </span>
                                             </td>
                                             <td class="text-center">
