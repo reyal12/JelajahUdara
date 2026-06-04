@@ -43,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error_msg = "Bandara asal dan tujuan tidak boleh sama!";
         } else {
             try {
-                $query = "INSERT INTO penerbangan (id_maskapai, bandara_asal, bandara_tujuan, tanggal_berangkat, tanggal_tiba, harga, kursi_tersedia, status) 
-                          VALUES (:id_maskapai, :asal, :tujuan, :tanggal_berangkat, :tanggal_tiba, :harga, :kursi, :status)";
+                $query = "INSERT INTO penerbangan (id_maskapai, asal_bandara, tujuan_bandara, tanggal_berangkat, jam_berangkat, jam_tiba, harga, kursi_tersedia, status_penerbangan) 
+                          VALUES (:id_maskapai, :asal, :tujuan, :tanggal_berangkat, :jam_berangkat, :jam_tiba, :harga, :kursi, :status)";
                 $stmt = $db->prepare($query);
                 $stmt->bindParam(':id_maskapai', $id_maskapai);
                 $stmt->bindParam(':asal', $asal);
@@ -84,9 +84,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error_msg = "Bandara asal dan tujuan tidak boleh sama!";
         } else {
             try {
-                $query = "UPDATE penerbangan SET id_maskapai = :id_maskapai, bandara_asal = :asal, bandara_tujuan = :tujuan, 
-                                                 tanggal_berangkat = :tanggal_berangkat, tanggal_tiba = :tanggal_tiba, 
-                                                 harga = :harga, kursi_tersedia = :kursi, status = :status 
+                $query = "UPDATE penerbangan SET id_maskapai = :id_maskapai, asal_bandara = :asal, tujuan_bandara = :tujuan, 
+                                                 tanggal_berangkat = :tanggal_berangkat, jam_berangkat = :jam_berangkat, jam_tiba = :jam_tiba, 
+                                                 harga = :harga, kursi_tersedia = :kursi, status_penerbangan = :status 
                           WHERE id_penerbangan = :id";
                 $stmt = $db->prepare($query);
                 $stmt->bindParam(':id_maskapai', $id_maskapai);
