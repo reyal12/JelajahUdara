@@ -41,12 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
                         $error_msg = "Kata sandi baru minimal harus 6 karakter!";
                     } else {
                         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-                        $query_update = "UPDATE users SET nama_lengkap = :nama, email = :email, password = :password WHERE id_user = :id";
+                        $query_update = "UPDATE users SET nama = :nama, nama_lengkap = :nama, email = :email, password = :password WHERE id_user = :id";
                         $stmt_update = $db->prepare($query_update);
                         $stmt_update->bindParam(':password', $hashed_password);
                     }
                 } else {
-                    $query_update = "UPDATE users SET nama_lengkap = :nama, email = :email WHERE id_user = :id";
+                    $query_update = "UPDATE users SET nama = :nama, nama_lengkap = :nama, email = :email WHERE id_user = :id";
                     $stmt_update = $db->prepare($query_update);
                 }
 
