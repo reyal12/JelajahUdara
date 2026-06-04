@@ -64,13 +64,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $total_harga = $harga_satuan * $jumlah_penumpang;
 
         // 3. Save booking data (pemesanan)
-        $query_booking = "INSERT INTO pemesanan (kode_booking, id_user, id_penerbangan, jumlah_penumpang, total_harga, status_pemesanan) 
-                          VALUES (:kode_booking, :id_user, :id_penerbangan, :jumlah_penumpang, :total_harga, 'Pending')";
+        $query_booking = "INSERT INTO pemesanan (kode_booking, id_user, id_penerbangan, jumlah_tiket, total_harga, status_pemesanan) 
+                          VALUES (:kode_booking, :id_user, :id_penerbangan, :jumlah_tiket, :total_harga, 'pending')";
         $stmt_booking = $db->prepare($query_booking);
         $stmt_booking->bindParam(':kode_booking', $kode_booking);
         $stmt_booking->bindValue(':id_user', $_SESSION['user_id']);
         $stmt_booking->bindParam(':id_penerbangan', $id_penerbangan);
-        $stmt_booking->bindParam(':jumlah_penumpang', $jumlah_penumpang);
+        $stmt_booking->bindParam(':jumlah_tiket', $jumlah_penumpang);
         $stmt_booking->bindParam(':total_harga', $total_harga);
         $stmt_booking->execute();
 
