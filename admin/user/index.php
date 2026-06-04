@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error_msg = "Email sudah digunakan oleh pengguna lain!";
                 } else {
                     $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-                    $query = "INSERT INTO users (nama_lengkap, email, password, role) VALUES (:nama, :email, :password, :role)";
+                    $query = "INSERT INTO users (nama, nama_lengkap, email, password, role) VALUES (:nama, :nama, :email, :password, :role)";
                     $stmt = $db->prepare($query);
                     $stmt->bindParam(':nama', $nama);
                     $stmt->bindParam(':email', $email);
@@ -82,12 +82,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $error_msg = "Kata sandi baru minimal 6 karakter!";
                         } else {
                             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-                            $query = "UPDATE users SET nama_lengkap = :nama, email = :email, password = :password, role = :role WHERE id_user = :id";
+                            $query = "UPDATE users SET nama = :nama, nama_lengkap = :nama, email = :email, password = :password, role = :role WHERE id_user = :id";
                             $stmt = $db->prepare($query);
                             $stmt->bindParam(':password', $hashed_password);
                         }
                     } else {
-                        $query = "UPDATE users SET nama_lengkap = :nama, email = :email, role = :role WHERE id_user = :id";
+                        $query = "UPDATE users SET nama = :nama, nama_lengkap = :nama, email = :email, role = :role WHERE id_user = :id";
                         $stmt = $db->prepare($query);
                     }
 
