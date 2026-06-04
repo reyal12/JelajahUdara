@@ -69,7 +69,7 @@ if (!$flight) {
                             <h4 class="fw-bold text-primary mb-1"><?= htmlspecialchars($flight['kode_bandara_asal']) ?></h4>
                             <h6 class="fw-semibold text-secondary mb-2"><?= htmlspecialchars($flight['nama_bandara_asal']) ?></h6>
                             <p class="text-muted mb-0"><i class="fa-solid fa-calendar me-2"></i><?= date('d M Y', strtotime($flight['tanggal_berangkat'])) ?></p>
-                            <p class="text-muted mb-0"><i class="fa-solid fa-clock me-2"></i>Jam <?= date('H:i', strtotime($flight['tanggal_berangkat'])) ?> WIB</p>
+                            <p class="text-muted mb-0"><i class="fa-solid fa-clock me-2"></i>Jam <?= substr($flight['jam_berangkat'], 0, 5) ?> WIB</p>
                         </div>
                         
                         <div class="col-md-2 text-center my-3 my-md-0">
@@ -84,8 +84,8 @@ if (!$flight) {
                             <span class="text-muted small d-block mb-1">BANDARA TUJUAN</span>
                             <h4 class="fw-bold text-primary mb-1"><?= htmlspecialchars($flight['kode_bandara_tujuan']) ?></h4>
                             <h6 class="fw-semibold text-secondary mb-2"><?= htmlspecialchars($flight['nama_bandara_tujuan']) ?></h6>
-                            <p class="text-muted mb-0"><i class="fa-solid fa-calendar me-2"></i><?= date('d M Y', strtotime($flight['tanggal_tiba'])) ?></p>
-                            <p class="text-muted mb-0"><i class="fa-solid fa-clock me-2"></i>Jam <?= date('H:i', strtotime($flight['tanggal_tiba'])) ?> WIB</p>
+                            <p class="text-muted mb-0"><i class="fa-solid fa-calendar me-2"></i><?= date('d M Y', strtotime($flight['tanggal_berangkat'])) ?></p>
+                            <p class="text-muted mb-0"><i class="fa-solid fa-clock me-2"></i>Jam <?= substr($flight['jam_tiba'], 0, 5) ?> WIB</p>
                         </div>
                     </div>
 
