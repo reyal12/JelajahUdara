@@ -23,7 +23,7 @@ try {
     $query_inner = "SELECT u.nama_lengkap, p.kode_booking, p.status_pemesanan, p.total_harga 
                     FROM pemesanan p
                     INNER JOIN users u ON p.id_user = u.id_user
-                    ORDER BY p.tanggal_pemesanan DESC";
+                    ORDER BY p.tanggal_pesan DESC";
     $stmt_inner = $db->query($query_inner);
     $inner_join_results = $stmt_inner->fetchAll(PDO::FETCH_ASSOC);
 
@@ -137,7 +137,7 @@ INNER JOIN users u ON p.id_user = u.id_user;</pre>
                                             <td class="font-monospace fw-bold"><?= htmlspecialchars($row['kode_booking']) ?></td>
                                             <td class="fw-bold text-success">Rp <?= number_format($row['total_harga'], 0, ',', '.') ?></td>
                                             <td>
-                                                <span class="badge <?= $row['status_pemesanan'] === 'Berhasil' ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning' ?> px-2.5 py-1 rounded-pill">
+                                                <span class="badge <?= $row['status_pemesanan'] === 'dikonfirmasi' ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning' ?> px-2.5 py-1 rounded-pill">
                                                     <?= htmlspecialchars($row['status_pemesanan']) ?>
                                                 </span>
                                             </td>
