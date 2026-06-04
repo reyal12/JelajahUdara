@@ -16,16 +16,16 @@ $db = $database->getConnection();
 
 $bookings = [];
 try {
-    $query = "SELECT p.*, f.tanggal_berangkat, f.tanggal_tiba, m.nama_maskapai, m.kode_maskapai,
+    $query = "SELECT p.*, f.tanggal_berangkat, f.jam_berangkat, m.nama_maskapai, m.kode_maskapai,
                      b_asal.kota AS kota_asal, b_asal.kode_bandara AS kode_asal,
                      b_tuj.kota AS kota_tujuan, b_tuj.kode_bandara AS kode_tujuan
               FROM pemesanan p
               JOIN penerbangan f ON p.id_penerbangan = f.id_penerbangan
               JOIN maskapai m ON f.id_maskapai = m.id_maskapai
-              JOIN bandara b_asal ON f.bandara_asal = b_asal.id_bandara
-              JOIN bandara b_tuj ON f.bandara_tujuan = b_tuj.id_bandara
+              JOIN bandara b_asal ON f.asal_bandara = b_asal.id_bandara
+              JOIN bandara b_tuj ON f.tujuan_bandara = b_tuj.id_bandara
               WHERE p.id_user = :user_id 
-              ORDER BY p.tanggal_pemesanan DESC";
+              ORDER BY p.tanggal_pesan DESC";
     $stmt = $db->prepare($query);
     $stmt->bindValue(':user_id', $_SESSION['user_id']);
     $stmt->execute();
@@ -77,9 +77,9 @@ try {
                                 </div>
                                 <div>
                                     <?php 
-                                    if ($b['status_pemesanan'] == 'Pending') {
+                                    if ($b['status_pemesanan'] == 'pending') {
                                         echo '<span class="badge badge-pending px-3 py-1.5 rounded-pill"><i class="fa-solid fa-spinner fa-spin me-1"></i> Pending</span>';
-                                    } elseif ($b['status_pemesanan'] == 'Berhasil') {
+                                    } elseif ($b['status_pemesanan'] == 'dikonfirmasi') {
                                         echo '<span class="badge badge-success px-3 py-1.5 rounded-pill"><i class="fa-solid fa-circle-check me-1"></i> Berhasil</span>';
                                     } else {
                                         echo '<span class="badge badge-danger px-3 py-1.5 rounded-pill"><i class="fa-solid fa-circle-xmark me-1"></i> Gagal</span>';
@@ -107,20 +107,20 @@ try {
                                             </div>
                                         </div>
                                         <div class="text-center mt-2">
-                                            <small class="text-muted"><i class="fa-solid fa-calendar me-1"></i> <?= date('d M Y, H:i', strtotime($b['tanggal_berangkat'])) ?></small>
+                                            <small class="text-muted"><i class="fa-solid fa-calendar me-1"></i> <?= date('d M Y', strtotime($b['tanggal_berangkat'])) . ', ' . substr($b['jam_berangkat'], 0, 5) ?></small>
                                         </div>
                                     </div>
                                     <div class="col-md-4 text-md-end text-center">
                                         <div class="mb-3 mb-md-0">
-                                            <small class="text-muted d-block"><?= $b['jumlah_penumpang'] ?> Penumpang</small>
+                                            <small class="text-muted d-block"><?= $b['jumlah_tiket'] ?> Penumpang</small>
                                             <strong class="text-success fs-5">Rp <?= number_format($b['total_harga'], 0, ',', '.') ?></strong>
                                         </div>
                                         <div class="d-flex gap-2 justify-content-center justify-content-md-end mt-2">
-                                            <?php if ($b['status_pemesanan'] === 'Pending'): ?>
+                                            <?php if ($b['status_pemesanan'] === 'pending'): ?>
                                                 <a href="pembayaran.php?id=<?= $b['id_pemesanan'] ?>" class="btn btn-primary btn-sm px-3">
                                                     <i class="fa-solid fa-credit-card me-1"></i> Bayar Sekarang
                                                 </a>
-                                            <?php elseif ($b['status_pemesanan'] === 'Berhasil'): ?>
+                                            <?php elseif ($b['status_pemesanan'] === 'dikonfirmasi'): ?>
                                                 <a href="cetak_tiket.php?id=<?= $b['id_pemesanan'] ?>" target="_blank" class="btn btn-outline-primary btn-sm px-3">
                                                     <i class="fa-solid fa-print me-1"></i> Cetak E-Ticket
                                                 </a>
