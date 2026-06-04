@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && $is_valid_password) {
             // Save user session
             $_SESSION['user_id'] = $user['id_user'];
-            $_SESSION['user_name'] = $user['nama'];
+            $_SESSION['user_name'] = !empty($user['nama_lengkap']) ? $user['nama_lengkap'] : $user['nama'];
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['user_role'] = $user['role'];
 
