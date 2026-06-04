@@ -69,7 +69,7 @@ if ($flight['kursi_tersedia'] <= 0) {
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Pemesan (Akun Terdaftar)</label>
                         <div class="p-3 bg-light rounded-3 border">
-                            <h6 class="fw-bold mb-1"><?= htmlspecialchars($_SESSION['user_name']) ?></h6>
+                            <h6 class="fw-bold mb-1"><?= htmlspecialchars($_SESSION['user_name'] ?? $_SESSION['user_email'] ?? 'Pengguna') ?></h6>
                             <p class="text-muted mb-0"><?= htmlspecialchars($_SESSION['user_email']) ?></p>
                         </div>
                     </div>
@@ -126,11 +126,11 @@ if ($flight['kursi_tersedia'] <= 0) {
                 <div class="py-2 mt-2 bg-light p-3 rounded-3">
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted small">Keberangkatan:</span>
-                        <span class="small fw-semibold"><?= date('d M Y, H:i', strtotime($flight['tanggal_berangkat'])) ?></span>
+                        <span class="small fw-semibold"><?= date('d M Y', strtotime($flight['tanggal_berangkat'])) . ', ' . substr($flight['jam_berangkat'], 0, 5) ?></span>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span class="text-muted small">Tiba:</span>
-                        <span class="small fw-semibold"><?= date('d M Y, H:i', strtotime($flight['tanggal_tiba'])) ?></span>
+                        <span class="small fw-semibold"><?= date('d M Y', strtotime($flight['tanggal_berangkat'])) . ', ' . substr($flight['jam_tiba'], 0, 5) ?></span>
                     </div>
                 </div>
 
