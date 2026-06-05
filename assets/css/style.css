@@ -270,13 +270,13 @@ main {
 /* Footer Section */
 footer {
     background-color: #0F172A;
-    color: #94A3B8;
+    color: #FFFFFF;
     padding: 3rem 0 1.5rem 0;
     font-size: 0.9rem;
 }
 
 footer a {
-    color: #E2E8F0;
+    color: #FFFFFF;
     text-decoration: none;
     transition: all 0.2s ease;
 }

@@ -40,7 +40,7 @@ try {
     $total_penerbangan = $s_penerbangan->fetch(PDO::FETCH_ASSOC)['total'] ?? 0;
 
     // 5. COUNT Tiket & SUM Revenue
-    $s_sales = $db->query("SELECT COUNT(id_pemesanan) AS total_t, SUM(total_harga) AS total_rev FROM pemesanan WHERE status_pemesanan = 'Berhasil'");
+    $s_sales = $db->query("SELECT SUM(jumlah_tiket) AS total_t, SUM(total_harga) AS total_rev FROM pemesanan WHERE status_pemesanan = 'dikonfirmasi'");
     $sales_data = $s_sales->fetch(PDO::FETCH_ASSOC);
     $total_tiket = $sales_data['total_t'] ?? 0;
     $total_pendapatan = $sales_data['total_rev'] ?? 0;
@@ -194,14 +194,15 @@ try {
                                 <tr>
                                     <td class="font-monospace fw-bold"><?= htmlspecialchars($b['kode_booking']) ?></td>
                                     <td><?= htmlspecialchars($b['nama_lengkap']) ?></td>
-                                    <td><?= $b['jumlah_penumpang'] ?></td>
+                                    <td><?= $b['jumlah_tiket'] ?></td>
                                     <td class="fw-bold text-success">Rp <?= number_format($b['total_harga'], 0, ',', '.') ?></td>
                                     <td>
                                         <?php 
-                                        if ($b['status_pemesanan'] == 'Pending') {
+                                        $status = strtolower($b['status_pemesanan']);
+                                        if ($status == 'pending') {
                                             echo '<span class="badge badge-pending px-2 py-1 rounded-pill">Pending</span>';
-                                        } elseif ($b['status_pemesanan'] == 'Berhasil') {
-                                            echo '<span class="badge badge-success px-2 py-1 rounded-pill">Berhasil</span>';
+                                        } elseif ($status == 'dikonfirmasi') {
+                                            echo '<span class="badge badge-success px-2 py-1 rounded-pill">Dikonfirmasi</span>';
                                         } else {
                                             echo '<span class="badge badge-danger px-2 py-1 rounded-pill">Gagal</span>';
                                         }

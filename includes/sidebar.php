@@ -1,6 +1,6 @@
 <?php
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/JelajahUdara/');
+    define('BASE_URL', '/JelajahUdara-main/');
 }
 
 $current_page = basename($_SERVER['SCRIPT_NAME']);
@@ -67,6 +67,12 @@ $current_dir = basename(dirname($_SERVER['SCRIPT_NAME']));
             <a href="<?= BASE_URL ?>admin/log_aktivitas.php">
                 <i class="fa-solid fa-clock-rotate-left"></i>
                 <span>Log Aktivitas</span>
+            </a>
+        </li>
+        <li class="sidebar-item <?= ($current_page == 'simulasi_deadlock.php') ? 'active' : '' ?>">
+            <a href="<?= BASE_URL ?>admin/simulasi_deadlock.php">
+                <i class="fa-solid fa-bug text-danger"></i>
+                <span>Simulasi Deadlock</span>
             </a>
         </li>
         <li class="sidebar-item <?= ($current_dir == 'backup') ? 'active' : '' ?>">

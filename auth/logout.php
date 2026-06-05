@@ -13,7 +13,7 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/JelajahUdara/');
+    define('BASE_URL', '/JelajahUdara-main/');
 }
 
 header("Location: " . BASE_URL);
