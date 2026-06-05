@@ -5,6 +5,7 @@ JelajahUdara adalah sistem pemesanan tiket pesawat berbasis web yang memungkinka
 
 # Detail Konsep
 ## 1. Database Views, SQL Joins & Set Operations
+<img width="1045" height="171" alt="image" src="https://github.com/user-attachments/assets/63725efd-4967-418a-b7a1-abce960f7041" />
 
 View `vw_jadwal_penerbangan` digunakan sebagai sumber data utama yang menggabungkan tabel `penerbangan`, `maskapai`, dan `bandara`. View ini diakses di halaman pencarian tiket dan laporan agar query tetap bersih dan konsisten.
 
