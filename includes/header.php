@@ -6,6 +6,9 @@ if (session_status() === PHP_SESSION_NONE) {
 if (!defined('BASE_URL')) {
     define('BASE_URL', '/JelajahUdara-main/');
 }
+
+// Jalankan Web-Based Auto Backup (Pseudo-Cron)
+require_once __DIR__ . '/auto_backup.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">

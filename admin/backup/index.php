@@ -1,6 +1,6 @@
 <?php
 // Handle Download Action before headers are sent!
-$backup_dir = __DIR__ . '/../../backup';
+$backup_dir = __DIR__ . '/../../hasilbackup';
 if (!is_dir($backup_dir)) {
     mkdir($backup_dir, 0777, true);
 }
@@ -39,10 +39,13 @@ if (isset($_POST['run_backup'])) {
     $filename = 'jelajahudara_' . date('Ymd_His') . '.sql';
     $filepath = $backup_dir . '/' . $filename;
     
-    // Command: mysqldump -u root jelajahudara > path
-    // Under windows/laragon/xampp, calling mysqldump works if in PATH.
-    // Let's write the command:
-    $command = "mysqldump -u root jelajahudara > " . escapeshellarg($filepath) . " 2>&1";
+    // Menentukan path absolut mysqldump Laragon
+    $mysqldump_path = 'E:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysqldump.exe';
+    if (!file_exists($mysqldump_path)) {
+        $mysqldump_path = 'mysqldump'; // Fallback
+    }
+
+    $command = '"' . $mysqldump_path . '" -u root jelajahudara > ' . escapeshellarg($filepath) . ' 2>&1';
     
     // Run Command
     $output = [];
@@ -103,6 +106,17 @@ if (is_dir($backup_dir)) {
             <div>
                 <h3 class="fw-bold mb-1"><i class="fa-solid fa-database text-primary me-2"></i> Backup Database</h3>
                 <p class="text-muted mb-0">Melakukan pencadangan (backup) skema & data database JelajahUdara kapan saja secara instan.</p>
+            </div>
+        </div>
+
+        <!-- Indikator Auto-Backup -->
+        <div class="alert alert-info border-0 shadow-sm rounded-3 mb-4 d-flex align-items-center">
+            <div class="bg-white text-info rounded-circle p-2 me-3 shadow-sm">
+                <i class="fa-solid fa-robot fs-5"></i>
+            </div>
+            <div>
+                <h6 class="fw-bold mb-0">Sistem Web-Based Auto Backup Aktif</h6>
+                <small>Website ini akan secara otomatis membuat 1 file SQL cadangan di latar belakang setiap harinya saat pertama kali diakses. Memenuhi standar keamanan sistem tanpa konfigurasi server eksternal.</small>
             </div>
         </div>
 

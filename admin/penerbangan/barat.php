@@ -20,19 +20,22 @@ try {
     $stmt = $db->prepare($query);
     $stmt->execute();
     $flights = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {}
+} catch (PDOException $e) {
+}
 ?>
 
 <div class="admin-wrapper">
     <!-- Include Sidebar -->
     <?php require_once '../../includes/sidebar.php'; ?>
-    
+
     <!-- Main Content -->
     <main class="admin-content">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h3 class="fw-bold mb-1"><i class="fa-solid fa-compass text-warning me-2"></i> Penerbangan Wilayah Barat</h3>
-                <p class="text-muted mb-0">Menampilkan data fragmentasi horizontal dari view <code>penerbangan_barat</code> (Asal: Jakarta, Lampung, Palembang).</p>
+                <h3 class="fw-bold mb-1"><i class="fa-solid fa-compass text-warning me-2"></i> Penerbangan Wilayah Barat
+                </h3>
+                <p class="text-muted mb-0">Menampilkan data fragmentasi horizontal dari view
+                    <code>penerbangan_barat</code> (Asal: Jakarta, Lampung, Palembang).</p>
             </div>
         </div>
 
@@ -57,7 +60,8 @@ try {
                                     <td><?= $f['id_penerbangan'] ?></td>
                                     <td>
                                         <strong class="text-dark d-block"><?= htmlspecialchars($f['nama_maskapai']) ?></strong>
-                                        <span class="badge bg-secondary-subtle text-secondary"><?= htmlspecialchars($f['kode_maskapai']) ?></span>
+                                        <span
+                                            class="badge bg-secondary-subtle text-secondary"><?= htmlspecialchars($f['kode_maskapai']) ?></span>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center gap-1 font-monospace fw-bold text-warning">
@@ -65,11 +69,14 @@ try {
                                             <i class="fa-solid fa-arrow-right text-muted" style="font-size:0.75rem;"></i>
                                             <span><?= htmlspecialchars($f['kode_bandara_tujuan']) ?></span>
                                         </div>
-                                        <small class="text-muted text-capitalize"><?= htmlspecialchars($f['kota_asal']) ?> ke <?= htmlspecialchars($f['kota_tujuan']) ?></small>
+                                        <small class="text-muted text-capitalize"><?= htmlspecialchars($f['kota_asal']) ?> ke
+                                            <?= htmlspecialchars($f['kota_tujuan']) ?></small>
                                     </td>
                                     <td>
-                                        <span class="fw-semibold d-block text-primary"><?= date('H:i', strtotime($f['tanggal_berangkat'])) ?></span>
-                                        <small class="text-muted"><?= date('d M Y', strtotime($f['tanggal_berangkat'])) ?></small>
+                                        <span
+                                            class="fw-semibold d-block text-primary"><?= date('H:i', strtotime($f['tanggal_berangkat'])) ?></span>
+                                        <small
+                                            class="text-muted"><?= date('d M Y', strtotime($f['tanggal_berangkat'])) ?></small>
                                     </td>
                                     <td class="fw-bold text-success">
                                         Rp <?= number_format($f['harga'], 0, ',', '.') ?>
@@ -80,15 +87,18 @@ try {
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="badge <?= $f['status'] === 'tersedia' ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' ?> px-2.5 py-1.5 rounded-pill text-capitalize">
-                                            <?= htmlspecialchars($f['status']) ?>
+                                        <?php $status = $f['status_penerbangan'] ?? null; ?>
+                                        <span
+                                            class="badge <?= $status === 'aktif' ? 'bg-success-subtle text-success' : ($status === 'dibatalkan' ? 'bg-danger-subtle text-danger' : 'bg-warning-subtle text-warning') ?> px-2 py-1 rounded-pill text-capitalize">
+                                            <?= htmlspecialchars($status ?? 'N/A') ?>
                                         </span>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="7" class="text-center py-4 text-muted">Tidak ada jadwal penerbangan Barat saat ini.</td>
+                                <td colspan="7" class="text-center py-4 text-muted">Tidak ada jadwal penerbangan Barat saat
+                                    ini.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -98,7 +108,7 @@ try {
     </main>
 </div>
 
-<?php 
+<?php
 $is_admin_layout = true;
-require_once '../../includes/footer.php'; 
+require_once '../../includes/footer.php';
 ?>
