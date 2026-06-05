@@ -216,6 +216,8 @@ $stmt->execute();
 ```
 
 ### Fragmentasi
+<img width="1584" height="120" alt="image" src="https://github.com/user-attachments/assets/a18ec0a7-226c-47dc-ae81-cba4a559f0ea" />
+<img width="1578" height="113" alt="image" src="https://github.com/user-attachments/assets/34de9f74-1735-41f7-b118-15907aba92ef" />
 
 Data penerbangan difragmentasi secara horizontal ke dalam dua view berdasarkan wilayah asal: `penerbangan_barat` (Jakarta, Lampung, Palembang) dan `penerbangan_timur` (Makassar, Ambon, Jayapura). Masing-masing view diakses pada halaman terpisah.
 
