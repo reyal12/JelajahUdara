@@ -240,6 +240,7 @@ $flights = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ```
 
 ### Backup Otomatis
+<img width="1645" height="585" alt="image" src="https://github.com/user-attachments/assets/8f7d2081-e7fa-4df7-9939-4b2f6b64972a" />
 
 Backup otomatis berjalan satu kali sehari menggunakan mekanisme pseudo-cron. Setiap kali halaman web diakses, sistem memeriksa apakah backup untuk hari itu sudah ada. Jika belum, `mysqldump` dijalankan dan hasilnya disimpan di direktori `hasilbackup/` dengan nama file bertanda waktu.
 
