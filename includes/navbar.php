@@ -1,6 +1,6 @@
 <?php
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/JelajahUdara-main/');
+    define('BASE_URL', '/JelajahUdara/');
 }
 
 $is_logged_in = isset($_SESSION['user_id']);

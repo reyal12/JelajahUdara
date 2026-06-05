@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/JelajahUdara-main/');
+    define('BASE_URL', '/JelajahUdara/');
 }
 
 // Jalankan Web-Based Auto Backup (Pseudo-Cron)
