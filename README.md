@@ -35,7 +35,8 @@ $query_inner = "SELECT u.nama_lengkap, p.kode_booking, p.status_pemesanan, p.tot
 ```
 
 **LEFT JOIN** — menampilkan seluruh pengguna terdaftar beserta jumlah booking dan total belanja mereka, termasuk pengguna yang belum pernah memesan:
-<img width="1587" height="170" alt="image" src="https://github.com/user-attachments/assets/62e2c519-d02b-44b9-8d9f-8a9d750599d7" />
+<img width="1584" height="318" alt="image" src="https://github.com/user-attachments/assets/3c456050-65f6-4dac-9d2f-360d26db4196" />
+
 
 ```php
 $query_left = "SELECT u.id_user, u.nama_lengkap, u.email, 
