@@ -25,7 +25,7 @@ Pada halaman laporan, terdapat empat query berbeda yang mendemonstrasikan JOIN d
 `admin/laporan/index.php`
 
 **INNER JOIN** — menampilkan data pemesanan beserta nama pengguna yang melakukan booking:
-<img width="1585" height="127" alt="image" src="https://github.com/user-attachments/assets/b1ed2f9d-ccf5-407e-a349-e859ec97af15" />
+<img width="1587" height="411" alt="image" src="https://github.com/user-attachments/assets/db03cc6e-1094-4354-8da9-3516e5f28105" />
 
 ```php
 $query_inner = "SELECT u.nama_lengkap, p.kode_booking, p.status_pemesanan, p.total_harga 
@@ -35,6 +35,7 @@ $query_inner = "SELECT u.nama_lengkap, p.kode_booking, p.status_pemesanan, p.tot
 ```
 
 **LEFT JOIN** — menampilkan seluruh pengguna terdaftar beserta jumlah booking dan total belanja mereka, termasuk pengguna yang belum pernah memesan:
+<img width="1587" height="170" alt="image" src="https://github.com/user-attachments/assets/62e2c519-d02b-44b9-8d9f-8a9d750599d7" />
 
 ```php
 $query_left = "SELECT u.id_user, u.nama_lengkap, u.email, 
@@ -47,7 +48,8 @@ $query_left = "SELECT u.id_user, u.nama_lengkap, u.email,
 ```
 
 **UNION** — menggabungkan daftar kota asal dan kota tujuan dari view menjadi satu daftar unik tanpa duplikasi:
-<img width="491" height="234" alt="image" src="https://github.com/user-attachments/assets/93e1dad7-889d-4e02-9eff-2d60fb9a1e22" />
+<img width="491" height="290" alt="image" src="https://github.com/user-attachments/assets/c819054f-5c6e-4e97-af5c-ae3793084c62" />
+
 
 ```php
 $query_union = "SELECT kota_asal AS nama_kota, 'Kota Asal' AS kategori FROM vw_jadwal_penerbangan
@@ -57,6 +59,7 @@ $query_union = "SELECT kota_asal AS nama_kota, 'Kota Asal' AS kategori FROM vw_j
 ```
 
 **UNION ALL** — menggabungkan seluruh data penerbangan dari dua fragmentasi wilayah (barat dan timur) termasuk duplikat:
+<img width="1583" height="143" alt="image" src="https://github.com/user-attachments/assets/1950e2b3-b6f7-4a37-b5dd-8f5415de9bac" />
 
 ```php
 $query_union_all = "SELECT 'Barat' AS asal_wilayah, nama_maskapai, kota_asal, kota_tujuan, harga 
