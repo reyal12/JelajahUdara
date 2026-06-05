@@ -25,6 +25,7 @@ Pada halaman laporan, terdapat empat query berbeda yang mendemonstrasikan JOIN d
 `admin/laporan/index.php`
 
 **INNER JOIN** — menampilkan data pemesanan beserta nama pengguna yang melakukan booking:
+<img width="1585" height="127" alt="image" src="https://github.com/user-attachments/assets/b1ed2f9d-ccf5-407e-a349-e859ec97af15" />
 
 ```php
 $query_inner = "SELECT u.nama_lengkap, p.kode_booking, p.status_pemesanan, p.total_harga 
