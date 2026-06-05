@@ -195,7 +195,8 @@ $total_harga = $harga_satuan * $jumlah_penumpang;
 ```
 
 ### Stored Procedure
-<img width="1039" height="294" alt="image" src="https://github.com/user-attachments/assets/93e62179-ec83-4b42-8dff-8863111e7219" />
+<img width="505" height="269" alt="image" src="https://github.com/user-attachments/assets/0955b771-731a-48e5-a9d6-cfd260a6724a" />
+
 
 Dua stored procedure digunakan pada halaman kelola penerbangan:
 
