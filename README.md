@@ -47,6 +47,7 @@ $query_left = "SELECT u.id_user, u.nama_lengkap, u.email,
 ```
 
 **UNION** — menggabungkan daftar kota asal dan kota tujuan dari view menjadi satu daftar unik tanpa duplikasi:
+<img width="491" height="234" alt="image" src="https://github.com/user-attachments/assets/93e1dad7-889d-4e02-9eff-2d60fb9a1e22" />
 
 ```php
 $query_union = "SELECT kota_asal AS nama_kota, 'Kota Asal' AS kategori FROM vw_jadwal_penerbangan
