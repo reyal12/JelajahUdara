@@ -162,6 +162,9 @@ while ($retry_count < $max_retries && !$success) {
 ---
 
 ## 4. Function, Trigger, Fragmentasi, dan Backup
+<img width="797" height="477" alt="image" src="https://github.com/user-attachments/assets/530e8676-acd3-4941-983d-6683e24e8fd5" />
+<img width="775" height="226" alt="image" src="https://github.com/user-attachments/assets/4a497747-db07-492c-bfe5-d9551a3018d9" />
+
 
 ### Function
 
